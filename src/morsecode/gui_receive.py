@@ -1,9 +1,8 @@
-import csv
 import sys
 
-import numpy as np
 from PySide6 import QtWidgets
-from PySide6.QtCore import Slot
+
+from morsecode.arduino_device import list_resources
 
 
 class UserInterface(QtWidgets.QMainWindow):
@@ -28,6 +27,17 @@ class UserInterface(QtWidgets.QMainWindow):
 
         # what happens when the print button is clicked
         self.print_button.clicked.connect(self.print_message)
+
+        # creates a choice for the arduino port
+        self.select_arduino_label = QtWidgets.QLabel("Port")
+        self.select_arduino_combobox = QtWidgets.QComboBox()
+
+        vbox.addWidget(self.select_arduino_label)
+        vbox.addWidget(self.select_arduino_combobox)
+
+        ports = list_resources()
+
+        self.select_arduino_combobox.addItems(ports)
 
     def print_message(self):
 

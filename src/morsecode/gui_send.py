@@ -5,6 +5,8 @@ import numpy as np
 from PySide6 import QtWidgets
 from PySide6.QtCore import Slot
 
+from morsecode.arduino_device import list_resources
+
 
 class UserInterface(QtWidgets.QMainWindow):
 
@@ -37,6 +39,17 @@ class UserInterface(QtWidgets.QMainWindow):
         # creates the history box, where the text history is shown
         self.history_box = QtWidgets.QTextEdit()
         hbox.addWidget(self.history_box)
+
+        # creates a choice for the arduino port
+        self.select_arduino_label = QtWidgets.QLabel("Port")
+        self.select_arduino_combobox = QtWidgets.QComboBox()
+
+        vbox_send.addWidget(self.select_arduino_label)
+        vbox_send.addWidget(self.select_arduino_combobox)
+
+        ports = list_resources()
+
+        self.select_arduino_combobox.addItems(ports)
 
     def sending(self):
         # get the text from the input box and append to the history box
