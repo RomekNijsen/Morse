@@ -19,4 +19,5 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-conversation = "morsecode.gui:main"
+send_message = "morsecode.gui_send:main"
+receive_message = "morsecode.gui_receive:main"
