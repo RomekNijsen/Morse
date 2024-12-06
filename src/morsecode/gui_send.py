@@ -3,6 +3,7 @@ import sys
 from PySide6 import QtWidgets
 
 from morsecode.arduino_device import list_resources
+from morsecode.morsecode import MorseCode
 
 
 class UserInterface(QtWidgets.QMainWindow):
@@ -49,9 +50,14 @@ class UserInterface(QtWidgets.QMainWindow):
         self.select_arduino_combobox.addItems(ports)
 
     def sending(self):
+        port = self.select_arduino_combobox.currentText()
+        device = MorseCode(port)
+
         # get the text from the input box and append to the history box
         text = self.input_box.toPlainText()
         self.history_box.append(f"You:  {text}")
+
+        device.send_message(string=text)
 
         # clear the input box for the next message
         self.input_box.clear()
