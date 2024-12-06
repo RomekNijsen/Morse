@@ -123,6 +123,11 @@ class MorseCode:
                     self.device.set_output_value(0)
                     time.sleep(0.5)
 
+                if signal == ":":
+                    time.sleep(4)
+
+            time.sleep(2)
+
     def close(self):
         """Closes the arduino"""
         self.device.close()
