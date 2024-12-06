@@ -1,6 +1,7 @@
+import time
+
 import numpy as np
 import pyvisa
-import time
 
 from morsecode.arduino_device import ArduinoVISADevice, list_resources
 

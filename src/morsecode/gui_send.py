@@ -1,9 +1,6 @@
-import csv
 import sys
 
-import numpy as np
 from PySide6 import QtWidgets
-from PySide6.QtCore import Slot
 
 from morsecode.arduino_device import list_resources
 
