@@ -68,14 +68,14 @@ MORSE_CODE_DICT = {
     "8": "---..",
     "9": "----.",
     "0": "-----",
-    ", ": "--..--",
+    ",": "--..--",
     ".": ".-.-.-",
     "?": "..--..",
     "/": "-..-.",
     "-": "-....-",
     "(": "-.--.",
     ")": "-.--.-",
-    " ": ":"
+    " ": ":",
 }
 
 
@@ -102,6 +102,7 @@ class MorseCode:
 
     def send_message(self, string):
         letters = list(string)
+        print(letters)
 
         for letter in letters:
 
