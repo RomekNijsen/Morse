@@ -1,5 +1,6 @@
 import numpy as np
 import pyvisa
+import time
 
 from morsecode.arduino_device import ArduinoVISADevice, list_resources
 
@@ -55,7 +56,17 @@ class MorseCode:
         return self.device.get_identification()
     
     def send_message(self, string):
-        
+        letters = list(string)
+
+        for letter in letters:
+            if letter == '.':
+                self.device.set_output_value(1023)
+                time.sleep(0.5)
+                self.device.set_output_value(0)
+            if letter == '-':
+                self.device.set_output_value(1023)
+                time.sleep(2)
+                self.device.set_output_value(0)
     
     def close(self):
         """Closes the arduino
