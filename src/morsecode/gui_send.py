@@ -31,9 +31,20 @@ class UserInterface(QtWidgets.QMainWindow):
         vbox_send.addWidget(self.input_box)
         vbox_send.addWidget(self.send_button)
 
+        # what happens when the send button is clicked
+        self.send_button.clicked.connect(self.sending)
+
         # creates the history box, where the text history is shown
         self.history_box = QtWidgets.QTextEdit()
         hbox.addWidget(self.history_box)
+
+    def sending(self):
+        # get the text from the input box and append to the history box
+        text = self.input_box.toPlainText()
+        self.history_box.append(f"You:  {text}")
+
+        # clear the input box for the next message
+        self.input_box.clear()
 
 
 def main():
