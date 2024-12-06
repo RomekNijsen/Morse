@@ -59,14 +59,36 @@ class MorseCode:
         letters = list(string)
 
         for letter in letters:
-            if letter == '.':
-                self.device.set_output_value(1023)
-                time.sleep(0.5)
-                self.device.set_output_value(0)
-            if letter == '-':
-                self.device.set_output_value(1023)
-                time.sleep(2)
-                self.device.set_output_value(0)
+
+            item = MORSE_CODE_DICT[f'{letter}']
+            if item == letter:
+                signals_string = list(item)
+                for signal in signals_string:
+                    if letter == '.':
+                        self.device.set_output_value(1023)
+                        time.sleep(0.5)
+                        self.device.set_output_value(0)
+
+                    if letter == '-':
+                        self.device.set_output_value(1023)
+                        time.sleep(2)
+                        self.device.set_output_value(0)
+                
+
+
+
+
+
+
+            
+
+    def receive_message(self, message):
+        letters = list(message)
+
+        for letter in letters:
+            for 
+
+    
     
     def close(self):
         """Closes the arduino
