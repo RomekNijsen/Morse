@@ -7,9 +7,16 @@ readme = "README.md"
 packages = [{include = "morsecode", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = ">=3.12,<3.14"
+matplotlib = "^3.9.2"
+pyvisa-py = "^0.7.2"
+pyserial = "^3.5"
+pyside6 = "^6.8.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+conversation = "morsecode.gui:main"
