@@ -46,11 +46,10 @@ class UserInterface(QtWidgets.QMainWindow):
         device = MorseCode(port)
 
         message = device.receive_message()
+        device.close()
 
         # # text = str("This is a placeholder text")
         self.receiving_box.append(f"Sender:  {message}")
-
-        device.close()
 
 
 def main():

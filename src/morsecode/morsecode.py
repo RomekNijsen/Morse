@@ -178,36 +178,43 @@ class MorseCode:
             time.sleep(2)
 
     def receive_message(self):
-        self.letters = {}
+        self.string = "could not detect word"
+        self.letters = []
         self.code = []
+        self.device.set_output_value(1023)
+        start_time = time.time()
+        end_time = time.time()
+        total_time_off = 0
+        timer = False
 
-        for i in range(1, 100):
-            time.sleep(0.1)
-
+        while True:
             value = self.device.get_input_value(2)
+            print(value)
 
-            start_time = time.time()
+            if value >= 40 and timer == False:
 
-            if value >= 60:
-                # calculating time LED is off
-                temp_time = time.time()
-                total_time_off = temp_time - start_time
-
-                # time measurement is started
                 start_time = time.time()
 
-                # getting code list
+                total_time_off = temp_time - end_time
+
+                timer = True
+
+            if value <= 40:
+                Timer = False
+                
+                temp_time = time.time()
+
+
+                end_time = time.time()
+                total_time_on = end_time - start_time
+
                 if total_time_off > 1 and total_time_off <= 2:
-                    if value <= 60:
-                        end_time = time.time()
 
-                        total_time_on = end_time - start_time
+                    if total_time_on > 0.25 and total_time_on <= 2:
+                        symbol = "."
 
-                        if total_time_on > 0.25 and total_time_on <= 2:
-                            symbol = "."
-
-                        if total_time_on > 1.5 and total_time_on <= 4:
-                            symbol = "-"
+                    if total_time_on > 1.5 and total_time_on <= 4:
+                        symbol = "-"
 
                     self.code.append(symbol)
 
@@ -224,7 +231,8 @@ class MorseCode:
                     self.letters.append(symbol)
 
                 # when time is longer than 5, end measurement
-                if total_time_off > 10:
+                if total_time_off > 5:
+                    print("HOI2")
                     text = []
 
                     for letter in self.letters:
@@ -233,11 +241,9 @@ class MorseCode:
 
                     self.string = "".join(text)
 
-        return self.string
+                    break
 
-    # def receive():
-    #     for symbol in code:
-    #     item = LETTERS_DICT{f"{code}"}
+        return self.string
 
     def close(self):
         """Closes the arduino"""

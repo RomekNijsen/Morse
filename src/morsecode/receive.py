@@ -180,32 +180,66 @@ class MorseCodeSend:
             time.sleep(2)
 
     def receive_message(self):
-        letter = []
+        self.string = "could not detect word"
+        self.letters = {}
+        self.code = []
+        self.device.set_output_value(1023)
+        start_time = time.time()
 
-        for i in range(1, 100):
-            time.sleep(0.1)
+        while True:
             value = self.device.get_input_value(2)
 
-            if value >= 60:
+            if value >= 70:
+
                 start_time = time.time()
 
-                if value <= 60:
-                    end_time = time.time()
+                temp_time = time.time()
+                total_time_off = temp_time - end_time
 
-                    total_time = end_time - start_time
+            if value <= 70:
+                end_time = time.time()
+                total_time_on = end_time - start_time
 
-                    if total_time > 0.5 and total_time <= 2:
+                if total_time_off > 1 and total_time_off <= 2:
+
+                    if total_time_on > 0.25 and total_time_on <= 2:
                         symbol = "."
 
-                    if total_time > 2 and total_time <= 4:
+                    if total_time_on > 1.5 and total_time_on <= 4:
                         symbol = "-"
 
-                    if total_time > 4 and total_time <= 5:
-                        symbol = ":"
+                    self.code.append(symbol)
 
-                    letter.append(symbol)
+                # when new letter, code list is converted to string and the letter is added to letters list
+                if total_time_off > 1.5 and total_time_off < 2.5:
+                    self.letter = "".join(self.code)
 
-        print(letter)
+                    self.letters.append(self.letter)
+
+                # when space, a space symbol is added to letters list
+                if total_time_off > 3.5 and total_time_off <= 4.5:
+                    symbol = ":"
+
+                    self.letters.append(symbol)
+
+                # when time is longer than 5, end measurement
+                if total_time_off > 5:
+                    print("HOI2")
+                    text = []
+
+                    for letter in self.letters:
+                        real_letter = LETTERS_DICT[f"{letter}"]
+                        text.append(real_letter)
+
+                    self.string = "".join(text)
+
+                    break
+
+        return self.string
+
+
+                 
+
 
     # def receive(string):
     #     code = list(string)
