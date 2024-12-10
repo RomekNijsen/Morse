@@ -3,6 +3,7 @@ import sys
 from PySide6 import QtWidgets
 
 from morsecode.arduino_device import list_resources
+from morsecode.morsecode import MorseCode
 
 
 class UserInterface(QtWidgets.QMainWindow):
@@ -20,9 +21,10 @@ class UserInterface(QtWidgets.QMainWindow):
 
         # creates output box
         self.receiving_box = QtWidgets.QTextEdit()
-        self.print_button = QtWidgets.QPushButton("Print")
+        self.print_button = QtWidgets.QPushButton("print")
 
         vbox.addWidget(self.receiving_box)
+
         vbox.addWidget(self.print_button)
 
         # what happens when the print button is clicked
@@ -39,10 +41,16 @@ class UserInterface(QtWidgets.QMainWindow):
 
         self.select_arduino_combobox.addItems(ports)
 
-    def print_message(self):
+    def print_message(self, port):
+        port = self.select_arduino_combobox.currentText()
+        device = MorseCode(port)
 
-        text = str("This is a placeholder text")
-        self.receiving_box.append(f"Sender:  {text}")
+        message = device.receive_message()
+
+        # # text = str("This is a placeholder text")
+        self.receiving_box.append(f"Sender:  {message}")
+
+        device.close()
 
 
 def main():
