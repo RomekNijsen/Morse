@@ -2,7 +2,7 @@ import numpy as np
 import pyvisa
 import time
 
-from morsecode.arduino_device import ArduinoVISADevice, list_resources
+from arduino_device import ArduinoVISADevice, list_resources
 
 rm = pyvisa.ResourceManager("@py")
 
@@ -67,8 +67,49 @@ class MorseCode:
                 self.device.set_output_value(1023)
                 time.sleep(2)
                 self.device.set_output_value(0)
+
+    def receive_message(self):
+        letter = []
+        
+        for i in range(1, 100):
+            time.sleep(0.1)
+            value = self.device.get_input_value(2) 
+
+            if value >= 60:
+                start_time = time.time()
+
+                if value <=60:
+                    end_time = time.time()
+
+                    total_time = end_time - start_time
+
+                    if total_time > 0.5 and total_time <= 2:
+                        symbol = '.'
+
+                    if total_time > 2 and total_time <= 4:
+                        symbol = '-'
+
+                    if total_time > 4 and total_time <= 5:
+                        symbol = ':'
+
+                    letter.append(symbol)
+
+        print(letter)
+
+
+
+                
+
+            
+            
     
     def close(self):
         """Closes the arduino
         """
         self.device.close()
+
+device = ArduinoVISADevice('ASRL3::INSTR')
+device.set_output_value(1023)
+# print(list_resources())
+morsecode = MorseCode('ASRL4::INSTR')
+morsecode.receive_message()

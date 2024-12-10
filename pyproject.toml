@@ -12,6 +12,7 @@ matplotlib = "^3.9.2"
 pyvisa-py = "^0.7.2"
 pyserial = "^3.5"
 pyside6 = "^6.8.1"
+numpy = "^2.2.0"
 
 
 [build-system]
